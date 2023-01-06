@@ -1,0 +1,12 @@
+# dependencies
+/react/node_modules
+/react/.pnp
+/react/build
+**/.pnp.js
+
+# misc
+/.idea
+memo.txt
+**/.DS_Store
+**/*.local
+**/*.log

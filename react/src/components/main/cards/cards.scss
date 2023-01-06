@@ -1,0 +1,117 @@
+@import "/global";
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  @media (max-width: $WIDTH_THRESHOLD) {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    display: flex;
+    place-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: $CARD_RADIUS;
+    margin: $CARD_SPACE_BETWEEN;
+    font-family: 'Nova Mono', monospace;
+    font-size: $CARD_FONT_SIZE;
+    background-color: $CARD_COLOR;
+
+    a {
+      padding: 1rem;
+    }
+
+    .online {
+      color: greenyellow;
+    }
+
+    .offline {
+      color: gray;
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+      width: 90%;
+      height: auto;
+    }
+
+    .info {
+      color: white;
+      margin: 1rem auto 0 auto;
+      text-align: center;
+    }
+
+    .circle_desc {
+      color: white;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+
+      p {
+        width: $CIRCLE_SIZE;
+        text-align: center;
+      }
+    }
+
+    .circles {
+      height: $CIRCLE_SIZE;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+
+      .circleGraph {
+        position: relative;
+        display: flex;
+        top: 0;
+        width: $CIRCLE_SIZE;
+        border-radius: 50%;
+
+        .insideCircle {
+          width: $CIRCLE_SIZE - $CIRCLE_THICKNESS;
+          height: $CIRCLE_SIZE - $CIRCLE_THICKNESS;
+          border-radius: 50%;
+          background: $CARD_COLOR;
+          color: white;
+          line-height: $CIRCLE_SIZE - $CIRCLE_THICKNESS;
+          text-align: center;
+          margin-top: $CIRCLE_THICKNESS / 2;
+          margin-left: $CIRCLE_THICKNESS / 2;
+          position: absolute;
+          z-index: 5;
+          font-size: $CIRCLE_FONT_SIZE;
+        }
+
+        .circle {
+          .mask, .fill {
+            width: $CIRCLE_SIZE;
+            height: $CIRCLE_SIZE;
+            position: absolute;
+            border-radius: 50%;
+          }
+
+          .mask {
+            clip: rect(0, $CIRCLE_SIZE, $CIRCLE_SIZE, $CIRCLE_SIZE / 2);
+
+            .fill {
+              clip: rect(0, $CIRCLE_SIZE / 2, $CIRCLE_SIZE, 0);
+              background-color: #0072d5;
+            }
+          }
+
+          .mask.full, .fill {
+            animation: fill ease-in-out 1.5s forwards;
+            transform: rotate(126deg);
+          }
+
+          @keyframes fill {
+            from {
+              transform: rotate(0deg);
+            }
+          }
+        }
+      }
+    }
+  }
+}

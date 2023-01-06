@@ -1,0 +1,50 @@
+@import "/global";
+
+.topbar {
+  z-index: 10;
+  top: 0;
+  padding: 0 $TOPBAR_SIDE_PADDING;
+  position: fixed;
+  height: $TOPBAR_HEIGHT;
+  width: 100vw - $TOPBAR_SIDE_PADDING * 2;
+  background-color: $TOPBAR_COLOR;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+
+  .left {
+    left: 0;
+
+    p {
+      font-family: 'Nova Mono', monospace;;
+      font-weight: bold;
+      font-size: 2.5em;
+      @media (max-width: $WIDTH_THRESHOLD) {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .right {
+    right: 0;
+    display: flex;
+
+    p {
+      font-family: "Nova Mono", monospace;
+      font-weight: bold;
+      font-size: 2rem;
+      @media (max-width: $WIDTH_THRESHOLD) {
+        font-size: 1rem;
+      }
+    }
+
+    .timerIcon {
+      margin: auto 0;
+      font-size: 3rem;
+      @media (max-width: $WIDTH_THRESHOLD) {
+        font-size: medium;
+      }
+    }
+  }
+}

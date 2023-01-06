@@ -1,0 +1,9 @@
+version: '4'
+services:
+  nginx:
+    container_name: tamc_dashboard
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 8080:80

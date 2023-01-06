@@ -1,0 +1,44 @@
+@import "/global";
+
+.detailView {
+  display: flex;
+  flex-direction: row;
+
+  .menu {
+    background-color: black;
+
+    ul {
+      width: fit-content;
+      margin: 0 2vw;
+      display: flex;
+      height: 100vh - $TOPBAR_HEIGHT;
+      list-style: none;
+      padding: 0;
+      text-align: center;
+      flex-direction: column;
+      font-size: $MENU_FONT_SIZE;
+      font-family: "Nova Mono", monospace;
+      justify-content: space-evenly;
+
+      @media (max-width: $WIDTH_THRESHOLD) {
+        width: 6rem;
+      }
+
+      li {
+        p {
+          color: white;
+          font-size: $MENU_FONT_SIZE;
+          @media (max-width: $WIDTH_THRESHOLD) {
+            font-size: 1rem;
+          }
+        }
+
+        .icon {
+          color: white;
+          font-size: 2rem;
+        }
+
+      }
+    }
+  }
+}
