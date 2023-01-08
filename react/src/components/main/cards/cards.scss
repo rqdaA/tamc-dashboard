@@ -73,7 +73,6 @@
           height: $CIRCLE_SIZE - $CIRCLE_THICKNESS;
           border-radius: 50%;
           background: $CARD_COLOR;
-          color: white;
           line-height: $CIRCLE_SIZE - $CIRCLE_THICKNESS;
           text-align: center;
           margin-top: $CIRCLE_THICKNESS / 2;
@@ -81,6 +80,7 @@
           position: absolute;
           z-index: 5;
           font-size: $CIRCLE_FONT_SIZE;
+
         }
 
         .circle {
@@ -96,13 +96,24 @@
 
             .fill {
               clip: rect(0, $CIRCLE_SIZE / 2, $CIRCLE_SIZE, 0);
-              background-color: #0072d5;
+
+              &.lev0 {
+                background-color: #6c98ea;
+              }
+
+              &.lev1 {
+                background-color: #d7a15c;
+              }
+
+              &.lev2 {
+                background-color: #ff6a00;
+              }
             }
           }
 
           .mask.full, .fill {
             animation: fill ease-in-out 1.5s forwards;
-            transform: rotate(126deg);
+            transform: rotate(0);
           }
 
           @keyframes fill {

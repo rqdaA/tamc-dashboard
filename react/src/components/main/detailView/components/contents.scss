@@ -1,3 +1,46 @@
+@import '/global';
+
 .info {
   color: white;
+  margin: 1rem;
+  width: 100%;
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media (max-width: $WIDTH_THRESHOLD) {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+
+      width: 100%;
+      background-color: $CARD_COLOR;
+      border-radius: $CARD_RADIUS;
+      margin: 1rem;
+
+      .infos {
+        display: flex;
+        flex-direction: column;
+
+        .indiInfo {
+          display: flex;
+          flex-direction: row;
+          line-height: 100%;
+          width: 100%;
+          margin: .5rem 0;
+          font-size: $DETAILED_INFO_FONT_SIZE;
+          font-family: "Nova Mono", monospace;
+
+          .icon {
+            position: absolute;
+          }
+
+          p {
+            margin-left: 2rem;
+          }
+        }
+      }
+    }
+  }
 }

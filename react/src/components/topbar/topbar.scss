@@ -40,7 +40,7 @@
     }
 
     .timerIcon {
-      margin: auto 0;
+      margin: auto .5rem auto auto;
       font-size: 3rem;
       @media (max-width: $WIDTH_THRESHOLD) {
         font-size: medium;
