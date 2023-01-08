@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Config = (props) => (
-    <div></div>
+    <div className="config">
+
+    </div>
 )
 
 export default Config;

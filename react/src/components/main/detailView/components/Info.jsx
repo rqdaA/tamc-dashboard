@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './contents.scss'
+import './info.scss'
 import {deviceIdToName} from "settings";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {

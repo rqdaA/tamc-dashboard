@@ -14,7 +14,7 @@
     flex-direction: column;
     border-radius: $CARD_RADIUS;
     margin: $CARD_SPACE_BETWEEN;
-    font-family: 'Nova Mono', monospace;
+    font-family: 'BIZ UDPMincho', monospace;
     font-size: $CARD_FONT_SIZE;
     background-color: $CARD_COLOR;
 
@@ -45,8 +45,11 @@
 
     .info {
       color: white;
-      margin: 0 auto;
+      margin: .5rem auto;
       text-align: center;
+      >p {
+        margin: .5rem auto;
+      }
     }
 
     .circleDesc {
