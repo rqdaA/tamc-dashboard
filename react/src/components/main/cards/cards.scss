@@ -22,14 +22,6 @@
       padding: 1rem;
     }
 
-    .online {
-      color: greenyellow;
-    }
-
-    .offline {
-      color: gray;
-    }
-
     img {
       display: block;
       margin: 0 auto;
@@ -37,13 +29,27 @@
       height: auto;
     }
 
+    .deviceName {
+      margin: .5rem auto;
+      font-size: $CARD_DEVICE_FONT_SIZE;
+      text-align: center;
+
+      &.online {
+        color: lawngreen;
+      }
+
+      &.offline {
+        color: $OFFLINE_COLOR;
+      }
+    }
+
     .info {
       color: white;
-      margin: 1rem auto 0 auto;
+      margin: 0 auto;
       text-align: center;
     }
 
-    .circle_desc {
+    .circleDesc {
       color: white;
       width: 100%;
       display: flex;

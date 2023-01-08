@@ -9,6 +9,7 @@ const MainRouter = () => (
         <Route path="/201/*" element={<DetailView deviceIdentifier="201"/>}/>
         <Route path="/202/*" element={<DetailView deviceIdentifier="202"/>}/>
         <Route path="/203/*" element={<DetailView deviceIdentifier="203"/>}/>
+        <Route path="/204/*" element={<DetailView deviceIdentifier="204"/>}/>
     </Routes>
 )
 
