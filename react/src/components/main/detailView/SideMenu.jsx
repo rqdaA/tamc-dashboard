@@ -3,7 +3,9 @@ import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCamera, faCircleInfo, faSliders} from "@fortawesome/free-solid-svg-icons";
 
-const Menu = (props) => (
+const SideMenu = (props) => (
+    // TODO Make SideMenu Responsive
+    // TODO Make SideMenu Static (low priority)
     <div className="menu">
         <ul>
             <Link to="info">
@@ -28,4 +30,4 @@ const Menu = (props) => (
     </div>
 )
 
-export default Menu;
+export default SideMenu;

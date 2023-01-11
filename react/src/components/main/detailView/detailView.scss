@@ -6,9 +6,10 @@
 
   .menu {
     background-color: black;
+    position: static;
+    width: $MENU_WIDTH;
 
     ul {
-      width: fit-content;
       margin: 0 2vw;
       display: flex;
       height: 100vh - $TOPBAR_HEIGHT;

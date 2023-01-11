@@ -1,0 +1,181 @@
+@import 'global';
+
+.control {
+  // TODO FOR SMARTPHONE
+
+  @media (min-width: $WIDTH_THRESHOLD) {
+    width: calc(100vw - #{$MENU_WIDTH});
+    height: calc(100vh - #{$TOPBAR_HEIGHT});
+    display: flex;
+    flex-direction: row;
+
+    img {
+      display: flex;
+      left: 0;
+    }
+
+    .config {
+      position: relative;
+      display: flex;
+      width: 100%;
+      margin: 0 auto;
+      top: 0;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      .forms {
+        .formField {
+          position: relative;
+
+          & + .formField {
+            margin: 3rem 0 0 0;
+          }
+        }
+
+        .input {
+          display: block;
+          margin: 0 auto;
+          width: 60%;
+          height: calc(#{$CONTROL_FONT_SIZE} + .3rem);
+          border-width: 0 0 .2rem 0;
+          font-family: "Nova Mono", monospace;
+          font-size: $CONTROL_FONT_SIZE;
+          line-height: $CONTROL_FONT_SIZE;
+          text-align: center;
+          -moz-appearance: textfield;
+
+          &:focus {
+            outline: none;
+          }
+
+          &:focus, &.filled {
+            + .label {
+              color: $CONTROL_PLACEHOLDER_OUT_COLOR;
+              transform: translateY(calc(#{-$CONTROL_FONT_SIZE} - .3rem));
+            }
+          }
+
+          &::-webkit-inner-spin-button, &-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+
+        .label {
+          width: 100%;
+          height: 100%;
+          top: 0;
+          font-family: "Nova Mono", monospace;
+          position: absolute;
+          text-align: center;
+          font-size: $CONTROL_FONT_SIZE;
+          line-height: $CONTROL_FONT_SIZE;
+          color: $CONTROL_PLACEHOLDER_IN_COLOR;
+          cursor: text;
+          transition: transform .2s cubic-bezier(0.19, 0.91, 1, 1);
+        }
+      }
+    }
+    .btnWrapper {
+      position: relative;
+      width: 100%;
+      height: max($CONTROL_BUTTON_HEIGHT, $CONTROL_PRGBAR_HEIGHT);
+
+      .button {
+        position: absolute;
+        background: #2B2D2F;
+        height: $CONTROL_BUTTON_HEIGHT;
+        width: $CONTROL_BUTTON_WIDTH;
+        left: calc(50% - #{$CONTROL_BUTTON_WIDTH} / 2);
+        text-align: center;
+        margin: 0 auto;
+        cursor: pointer;
+        border-radius: 1rem;
+
+        .text {
+          cursor: pointer;
+          font: bold 1.25rem/1 "Nova Mono";
+          color: #71DFBE;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-52%);
+          left: 0;
+          right: 0;
+        }
+
+        &.animating {
+          animation: anim_btn $CONTROL_BUTTON_1ST_TRANS_TIME ease-in-out forwards;
+          @keyframes anim_btn {
+            100% {
+              left: calc(50% - #{$CONTROL_PRGBAR_WIDTH} / 2);
+              height: $CONTROL_PRGBAR_HEIGHT;
+              width: $CONTROL_PRGBAR_WIDTH;
+            }
+          }
+        }
+
+        &.finished {
+          animation: fin_btn .3s ease-in-out forwards;
+          opacity: 0;
+          left: calc(50% - 5rem / 2);
+          height: 5rem;
+          width: 5rem;
+          border-radius: 2.5rem;
+          background-color: #71DFBE;
+          @keyframes fin_btn {
+            to {
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+
+      .progress_bar {
+        position: absolute;
+        height: $CONTROL_PRGBAR_HEIGHT;
+        width: 0;
+        left: 50%;
+        border-radius: 10rem;
+        transform: translateX(-50%);
+        background: lighten(#2B2D2F, 15%);
+
+        &.animating {
+          animation: progress 6s ease-in $CONTROL_BUTTON_1ST_TRANS_TIME forwards;
+          @keyframes progress {
+            100% {
+              width: 20rem;
+            }
+          }
+        }
+      }
+
+      svg {
+        position: absolute;
+        z-index: 0;
+        width: 2rem;
+        top: 1.2rem;
+        left: calc(50% - 1rem);
+
+        .check {
+          opacity: 0;
+          fill: none;
+          stroke: #FFFFFF;
+          stroke-width: 3;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          animation: check_btn .2s ease-out .3s forwards;
+          @keyframes check_btn {
+            to {
+              opacity: 100;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: $WIDTH_THRESHOLD) {
+
+  }
+}

@@ -1,14 +1,14 @@
 import React from 'react';
-import Menu from "./Menu";
+import SideMenu from "./SideMenu";
 import './detailView.scss'
 import {Navigate, Route, Routes} from "react-router-dom";
-import Info from "./components/Info";
-import Config from "./components/Config";
-import Control from "./components/Control";
+import Info from "./info/Info";
+import Config from "./config/Config";
+import Control from "./control/Control";
 
 const DetailView = ({deviceIdentifier: deviceId}) => (
     <div className="detailView">
-        <Menu/>
+        <SideMenu/>
         <Routes>
             <Route path={`info`} element={<Info deviceId={deviceId}/>}/>
             <Route path={`config`} element={<Config device/>}/>
