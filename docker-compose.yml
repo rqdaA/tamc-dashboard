@@ -2,8 +2,13 @@ version: '4'
 services:
   nginx:
     container_name: tamc_dashboard
+    volumes:
+      - nginx_logs:/var/log/nginx/
     build:
       context: .
       dockerfile: ./docker/Dockerfile
     ports:
       - 8080:80
+
+volumes:
+  nginx_logs:

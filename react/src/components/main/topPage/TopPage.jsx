@@ -1,9 +1,9 @@
 import React from 'react';
 import Card from "./Card";
-import './cards.scss'
+import './topPage.scss'
 
 //TODO Retrieve Values from API or Config File
-const Cards = ({confFile}) => (
+const TopPage = ({confFile}) => (
     <div className="cards" data-aos="fade-down">
         <Card deviceId="201" isOnline={true} moisture={'30%'} cpuTemp={'50℃'} lastRecvTime={'2022 10/23'}
               overAllUsage={'80%'} usbUsage={'20%'} detailURL="/201/info"/>
@@ -16,4 +16,4 @@ const Cards = ({confFile}) => (
     </div>
 )
 
-export default Cards;
+export default TopPage;

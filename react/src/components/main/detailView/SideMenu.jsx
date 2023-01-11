@@ -5,7 +5,6 @@ import {faCamera, faCircleInfo, faSliders} from "@fortawesome/free-solid-svg-ico
 
 const SideMenu = (props) => (
     // TODO Make SideMenu Responsive
-    // TODO Make SideMenu Static (low priority)
     <div className="menu">
         <ul>
             <Link to="info">

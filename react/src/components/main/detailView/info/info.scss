@@ -14,7 +14,7 @@
     }
 
     .card {
-
+      padding: 1.5rem;
       width: 100%;
       background-color: $CARD_COLOR;
       border-radius: $CARD_RADIUS;
@@ -22,8 +22,10 @@
       .infos {
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         .indiInfo {
+          left: 0;
           display: flex;
           flex-direction: row;
           line-height: 100%;

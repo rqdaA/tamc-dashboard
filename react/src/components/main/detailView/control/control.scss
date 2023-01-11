@@ -1,9 +1,10 @@
 @import 'global';
 
 .control {
-  // TODO FOR SMARTPHONE
+  // TODO Make Responsive
 
   @media (min-width: $WIDTH_THRESHOLD) {
+    // TODO Use variables for timing
     width: calc(100vw - #{$MENU_WIDTH});
     height: calc(100vh - #{$TOPBAR_HEIGHT});
     display: flex;
@@ -28,14 +29,14 @@
           position: relative;
 
           & + .formField {
-            margin: 3rem 0 0 0;
+            margin: $CONTROL_FORM_SPACE 0 0 0;
           }
         }
 
         .input {
           display: block;
           margin: 0 auto;
-          width: 60%;
+          width: $CONTROL_FORM_WIDTH;
           height: calc(#{$CONTROL_FONT_SIZE} + .3rem);
           border-width: 0 0 .2rem 0;
           font-family: "Nova Mono", monospace;
@@ -83,14 +84,14 @@
 
       .button {
         position: absolute;
-        background: #2B2D2F;
+        background: $CONTROL_BUTTON_COLOR;
         height: $CONTROL_BUTTON_HEIGHT;
         width: $CONTROL_BUTTON_WIDTH;
         left: calc(50% - #{$CONTROL_BUTTON_WIDTH} / 2);
         text-align: center;
         margin: 0 auto;
         cursor: pointer;
-        border-radius: 1rem;
+        border-radius: 2rem;
 
         .text {
           cursor: pointer;
@@ -98,15 +99,28 @@
           color: #71DFBE;
           position: absolute;
           top: 50%;
-          transform: translateY(-52%);
+          transform: translateY(-50%);
           left: 0;
           right: 0;
         }
 
+        &.restarting {
+          cursor: pointer;
+          animation: int_btn .5s ease-in-out forwards;
+          opacity: 0;
+          @keyframes int_btn {
+            to {
+              opacity: 1;
+            }
+          }
+        }
+
         &.animating {
+          opacity: 1;
+          cursor: default;
           animation: anim_btn $CONTROL_BUTTON_1ST_TRANS_TIME ease-in-out forwards;
           @keyframes anim_btn {
-            100% {
+            to {
               left: calc(50% - #{$CONTROL_PRGBAR_WIDTH} / 2);
               height: $CONTROL_PRGBAR_HEIGHT;
               width: $CONTROL_PRGBAR_WIDTH;
@@ -115,13 +129,14 @@
         }
 
         &.finished {
-          animation: fin_btn .3s ease-in-out forwards;
+          cursor: none;
+          animation: fin_btn .5s ease-in-out forwards;
+          left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA} / 2);
+          height: $CONTROL_BUTTON_FIN_DIA;
+          width: $CONTROL_BUTTON_FIN_DIA;
+          border-radius: $CONTROL_BUTTON_FIN_DIA / 2;
+          background-color: $CONTROL_BUTTON_FIN_COLOR;
           opacity: 0;
-          left: calc(50% - 5rem / 2);
-          height: 5rem;
-          width: 5rem;
-          border-radius: 2.5rem;
-          background-color: #71DFBE;
           @keyframes fin_btn {
             to {
               opacity: 1;
@@ -130,21 +145,22 @@
         }
       }
 
-
       .progress_bar {
+        opacity: 0;
         position: absolute;
         height: $CONTROL_PRGBAR_HEIGHT;
         width: 0;
         left: 50%;
-        border-radius: 10rem;
+        border-radius: $CONTROL_PRGBAR_RAD;
         transform: translateX(-50%);
-        background: lighten(#2B2D2F, 15%);
+        background: lighten($CONTROL_BUTTON_COLOR, 20%);
 
         &.animating {
-          animation: progress 6s ease-in $CONTROL_BUTTON_1ST_TRANS_TIME forwards;
+          opacity: 1;
+          animation: progress 5.5s ease-in $CONTROL_BUTTON_1ST_TRANS_TIME forwards;
           @keyframes progress {
             100% {
-              width: 20rem;
+              width: $CONTROL_PRGBAR_WIDTH;
             }
           }
         }
@@ -153,14 +169,14 @@
       svg {
         position: absolute;
         z-index: 0;
-        width: 2rem;
-        top: 1.2rem;
-        left: calc(50% - 1rem);
+        width: $CONTROL_BUTTON_FIN_DIA / 2;
+        top: $CONTROL_BUTTON_FIN_DIA / 4 - .3rem;
+        left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA } / 4);
 
         .check {
           opacity: 0;
           fill: none;
-          stroke: #FFFFFF;
+          stroke: $CONTROL_BUTTON_CHECK_COLOR;
           stroke-width: 3;
           stroke-linecap: round;
           stroke-linejoin: round;
