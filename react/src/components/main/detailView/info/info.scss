@@ -1,47 +1,81 @@
 @import 'global';
 
 .info {
+  position: absolute;
   color: white;
-  margin: 1rem;
-  width: 100%;
+  width: calc(100% - #{$MENU_WIDTH});
+  left: $MENU_WIDTH;
+
+  .deviceName {
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'makinas', monospace;
+  }
 
   .cards {
     display: grid;
     margin: $CARD_SPACE_BETWEEN;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     @media (max-width: $WIDTH_THRESHOLD) {
       grid-template-columns: 1fr;
     }
 
     .card {
       padding: 1.5rem;
-      width: 100%;
-      background-color: $CARD_COLOR;
       border-radius: $CARD_RADIUS;
+      font-family: Arial, serif;
 
-      .infos {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+      .title {
+        font-family: 'makinas', monospace;
+      }
 
-        .indiInfo {
-          left: 0;
+      &.detailedInfo {
+        grid-row: 1;
+        grid-column: 1 / span 2;
+
+        .infos {
           display: flex;
-          flex-direction: row;
-          line-height: 100%;
+          flex-direction: column;
           width: 100%;
-          margin: .5rem 0;
-          font-size: $INFO_FONT_SIZE;
-          font-family: "Nova Mono", monospace;
 
-          .icon {
-            position: absolute;
-          }
+          .indiInfo {
+            left: 0;
+            display: flex;
+            flex-direction: row;
+            line-height: 100%;
+            width: 100%;
+            margin: .5rem 0;
+            font-size: $INFO_FONT_SIZE;
 
-          p {
-            margin-left: 2rem;
+            .icon {
+              position: absolute;
+            }
+
+            p {
+              margin-left: 2rem;
+            }
           }
         }
+      }
+
+      &.logs {
+        grid-column: 1 / span 3;
+
+        p {
+          white-space: pre-line;
+        }
+      }
+
+      &.cpuGraph {
+        grid-column: 1 / span 3;
+        font-family: Arial, serif;
+        padding-left: 0;
+      }
+
+      &.memGraph {
+        grid-column: 1 / span 3;
+        font-family: Arial, serif;
+        padding-left: 0;
       }
     }
   }

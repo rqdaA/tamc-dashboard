@@ -9,6 +9,8 @@
     height: calc(100vh - #{$TOPBAR_HEIGHT});
     display: flex;
     flex-direction: row;
+    position: absolute;
+    left: $MENU_WIDTH;
 
     img {
       display: flex;
@@ -73,7 +75,7 @@
           line-height: $CONTROL_FONT_SIZE;
           color: $CONTROL_PLACEHOLDER_IN_COLOR;
           cursor: text;
-          transition: transform .2s cubic-bezier(0.19, 0.91, 1, 1);
+          transition: transform .2s cubic-bezier(0.20, 0.91, 1, 1);
         }
       }
     }
@@ -129,7 +131,7 @@
         }
 
         &.finished {
-          cursor: none;
+          cursor: default;
           animation: fin_btn .5s ease-in-out forwards;
           left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA} / 2);
           height: $CONTROL_BUTTON_FIN_DIA;

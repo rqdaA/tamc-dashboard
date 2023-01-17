@@ -6,7 +6,8 @@
 
   .menu {
     background-color: black;
-    position: static;
+    position: fixed;
+    height: calc(100vh - #{$TOPBAR_HEIGHT});
     width: $MENU_WIDTH;
 
     ul {

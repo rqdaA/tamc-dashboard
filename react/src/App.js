@@ -3,7 +3,9 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import React, {useEffect} from 'react'
 import Topbar from "./components/topbar/Topbar";
-import MainRouter from "./MainRouter";
+import {Route, Routes} from "react-router-dom";
+import TopPage from "./components/main/topPage/TopPage";
+import DetailView from "./components/main/detailView/DetailView";
 
 function App() {
     useEffect(() => {
@@ -16,7 +18,13 @@ function App() {
                 <Topbar/>
             </header>
             <main>
-                <MainRouter/>
+                <Routes>
+                    <Route index element={<TopPage confFile=""/>}/>
+                    <Route path="/201/*" element={<DetailView deviceIdentifier="201"/>}/>
+                    <Route path="/202/*" element={<DetailView deviceIdentifier="202"/>}/>
+                    <Route path="/203/*" element={<DetailView deviceIdentifier="203"/>}/>
+                    <Route path="/204/*" element={<DetailView deviceIdentifier="204"/>}/>
+                </Routes>
             </main>
         </div>
     );

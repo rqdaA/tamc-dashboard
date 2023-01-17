@@ -1,4 +1,5 @@
 import React from 'react';
+import './circleGraph.scss'
 
 function CircleGraph({text}) {
     const regex = /\d+%/
