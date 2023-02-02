@@ -1,14 +1,20 @@
 @import "/global";
 
 .detailView {
+
   display: flex;
   flex-direction: row;
 
   .menu {
+    z-index: 100;
     background-color: black;
     position: fixed;
     height: calc(100vh - #{$TOPBAR_HEIGHT});
     width: $MENU_WIDTH;
+    @media (max-width: $WIDTH_THRESHOLD) {
+      height: $MOBILE_MENU_HEIGHT;
+      width: 100vw;
+    }
 
     ul {
       margin: 0 2vw;
@@ -23,23 +29,26 @@
       justify-content: space-evenly;
 
       @media (max-width: $WIDTH_THRESHOLD) {
-        width: 6rem;
+        height: $MOBILE_MENU_HEIGHT;
+        flex-direction: row;
+        justify-content: space-evenly;
       }
 
       li {
-        p {
+        .link {
           color: white;
-          font-size: $MENU_FONT_SIZE;
-          @media (max-width: $WIDTH_THRESHOLD) {
-            font-size: 1rem;
+          p {
+            font-size: $MENU_FONT_SIZE;
+          }
+
+          .icon {
+            font-size: 2rem;
+          }
+
+          &.selectedMenu {
+            color: lightblue;
           }
         }
-
-        .icon {
-          color: white;
-          font-size: 2rem;
-        }
-
       }
     }
   }

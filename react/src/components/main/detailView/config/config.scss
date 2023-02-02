@@ -2,7 +2,63 @@
 
 .config {
   position: relative;
-  width: 30rem;
-  top: $TOPBAR_HEIGHT;
+  width: calc(100% - #{$MENU_WIDTH});
+  height: calc(100% - #{$TOPBAR_HEIGHT} - #{$MARGIN_AROUND} / 2);
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  margin: $MARGIN_AROUND/4 $MARGIN_AROUND $MARGIN_AROUND/4 $MENU_WIDTH;
+  color: white;
+  @media (max-width: $WIDTH_THRESHOLD) {
+    width: 100%;
+    height: calc(100% - #{$TOPBAR_HEIGHT} - #{$MOBILE_MENU_HEIGHT});
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    margin: $MOBILE_MENU_HEIGHT 0 $MARGIN_AROUND 0;
+  }
 
+  .notification {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background: $CARD_COLOR;
+    padding: $INFO_CARD_PADDING;
+    border-radius: $CARD_RADIUS;
+    margin: $MARGIN_AROUND;
+
+    .slider {
+      .threshold {
+        font-size: 1.5rem;
+      }
+
+      p {
+        text-align: center;
+      }
+    }
+
+    .notifyTitle {
+      text-align: center;
+      font-size: 2.5rem;
+    }
+
+    .notifyToggle {
+      margin: 0;
+    }
+
+    .notifyList {
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+    }
+
+    &.obs {
+      grid-column: 1/ span 2;
+      display: flex;
+      flex-direction: column;
+      @media (max-width: $WIDTH_THRESHOLD) {
+        grid-column: 1;
+
+      }
+    }
+  }
 }

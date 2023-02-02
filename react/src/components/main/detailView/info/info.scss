@@ -6,32 +6,45 @@
   width: calc(100% - #{$MENU_WIDTH});
   left: $MENU_WIDTH;
 
+  @media (max-width: $WIDTH_THRESHOLD) {
+    top: calc(#{$MOBILE_MENU_HEIGHT + $TOPBAR_HEIGHT});
+    width: 100vw;
+    left: 0;
+  }
+
   .deviceName {
     text-align: center;
-    font-size: 3rem;
+    font-size: $INFO_DEVICE_NAME_SIZE;
     font-family: 'makinas', monospace;
   }
 
-  .cards {
+  .infoCards {
     display: grid;
-    margin: $CARD_SPACE_BETWEEN;
     grid-template-columns: 1fr 1fr 1fr;
     @media (max-width: $WIDTH_THRESHOLD) {
       grid-template-columns: 1fr;
     }
 
-    .card {
-      padding: 1.5rem;
+    .infoCard {
+      padding: $INFO_CARD_PADDING;
+      background-color: $CARD_COLOR;
+      margin: $CARD_SPACE_BETWEEN;
       border-radius: $CARD_RADIUS;
-      font-family: Arial, serif;
+      font-family: 'makinas', monospace;
+      font-size: $CARD_FONT_SIZE;
 
       .title {
+        text-align: center;
+        margin-bottom: $INFO_MARGIN_TITLE;
         font-family: 'makinas', monospace;
       }
 
       &.detailedInfo {
-        grid-row: 1;
         grid-column: 1 / span 2;
+
+        @media (max-width: $WIDTH_THRESHOLD) {
+          grid-column: 1;
+        }
 
         .infos {
           display: flex;
@@ -43,8 +56,8 @@
             display: flex;
             flex-direction: row;
             line-height: 100%;
-            width: 100%;
-            margin: .5rem 0;
+            //width: 100%;
+            margin: $INFO_CARD_SPACE_BETWEEN 0;
             font-size: $INFO_FONT_SIZE;
 
             .icon {
@@ -60,22 +73,80 @@
 
       &.logs {
         grid-column: 1 / span 3;
+        overflow: hidden;
 
-        p {
-          white-space: pre-line;
+        @media (max-width: $WIDTH_THRESHOLD) {
+          grid-column: 1;
+        }
+
+        .logText {
+          font-size: $MOBILE_INFO_FONT_SMALL;
+          width: 100%;
+          overflow-x: scroll;
+
+          @media (min-width: $WIDTH_THRESHOLD) {
+            &::-webkit-scrollbar {
+              height: .5em;
+            }
+
+            &::-webkit-scrollbar-track {
+              background-color: lighten(#555, 10);
+            }
+
+            &::-webkit-scrollbar-thumb {
+              background-color: #555;
+            }
+          }
+
+          @media (max-width: $WIDTH_THRESHOLD) {
+            width: calc(100vw - #{$INFO_CARD_PADDING} * 2 - #{$MARGIN_AROUND} * 2);
+          }
         }
       }
 
-      &.cpuGraph {
+      &.graph {
+        margin-top: .3rem;
         grid-column: 1 / span 3;
         font-family: Arial, serif;
         padding-left: 0;
+
+        @media (max-width: $WIDTH_THRESHOLD) {
+          grid-column: 1;
+        }
+
+        .chart {
+          font-size: $MOBILE_INFO_FONT_SMALL;
+        }
       }
 
-      &.memGraph {
-        grid-column: 1 / span 3;
-        font-family: Arial, serif;
-        padding-left: 0;
+      &.useRate {
+        .content {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          height: calc(100% - #{$CARD_FONT_SIZE} - #{$INFO_CARD_PADDING});
+
+          .circleDesc {
+            display: flex;
+            flex-direction: row;
+            margin-top: 1rem;
+            color: white;
+            justify-content: space-around;
+
+            p {
+              width: $CIRCLE_SIZE;
+              text-align: center;
+            }
+          }
+
+          .circles {
+            height: $CIRCLE_SIZE;
+            display: flex;
+            justify-content: space-around;
+          }
+        }
+
       }
     }
   }

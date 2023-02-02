@@ -1,199 +1,218 @@
 @import 'global';
 
 .control {
-  // TODO Make Responsive
+  // TODO Focusable Button
 
-  @media (min-width: $WIDTH_THRESHOLD) {
-    // TODO Use variables for timing
-    width: calc(100vw - #{$MENU_WIDTH});
-    height: calc(100vh - #{$TOPBAR_HEIGHT});
+  width: calc(100vw - #{$MENU_WIDTH});
+  height: calc(100vh - #{$TOPBAR_HEIGHT});
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: $MENU_WIDTH;
+  @media (max-width: $WIDTH_THRESHOLD) {
+    margin-top: $MOBILE_MENU_HEIGHT;
+    width: 100vw;
+    left: 0;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  img {
     display: flex;
-    flex-direction: row;
-    position: absolute;
-    left: $MENU_WIDTH;
+    top: 0;
+    left: 0;
+    @media (max-width: $WIDTH_THRESHOLD) {
+      object-fit: scale-down;
+      display: block;
+      max-width: 100vw;
+      max-height: 40vh;
+    }
+  }
 
-    img {
-      display: flex;
-      left: 0;
+  .config {
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    top: 0;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    @media (max-width: $WIDTH_THRESHOLD) {
+      margin-top: $CONTROL_FORM_SPACE;
     }
 
-    .config {
-      position: relative;
-      display: flex;
-      width: 100%;
-      margin: 0 auto;
-      top: 0;
-      flex-direction: column;
-      justify-content: space-evenly;
+    .forms {
+      .formField {
+        position: relative;
 
-      .forms {
-        .formField {
-          position: relative;
-
-          & + .formField {
-            margin: $CONTROL_FORM_SPACE 0 0 0;
-          }
-        }
-
-        .input {
-          display: block;
-          margin: 0 auto;
-          width: $CONTROL_FORM_WIDTH;
-          height: calc(#{$CONTROL_FONT_SIZE} + .3rem);
-          border-width: 0 0 .2rem 0;
-          font-family: "Nova Mono", monospace;
-          font-size: $CONTROL_FONT_SIZE;
-          line-height: $CONTROL_FONT_SIZE;
-          text-align: center;
-          -moz-appearance: textfield;
-
-          &:focus {
-            outline: none;
-          }
-
-          &:focus, &.filled {
-            + .label {
-              color: $CONTROL_PLACEHOLDER_OUT_COLOR;
-              transform: translateY(calc(#{-$CONTROL_FONT_SIZE} - .3rem));
-            }
-          }
-
-          &::-webkit-inner-spin-button, &-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-        }
-
-        .label {
-          width: 100%;
-          height: 100%;
-          top: 0;
-          font-family: "Nova Mono", monospace;
-          position: absolute;
-          text-align: center;
-          font-size: $CONTROL_FONT_SIZE;
-          line-height: $CONTROL_FONT_SIZE;
-          color: $CONTROL_PLACEHOLDER_IN_COLOR;
-          cursor: text;
-          transition: transform .2s cubic-bezier(0.20, 0.91, 1, 1);
+        // Margin except the top one
+        & + .formField {
+          margin-top: $CONTROL_FORM_SPACE;
         }
       }
-    }
-    .btnWrapper {
-      position: relative;
-      width: 100%;
-      height: max($CONTROL_BUTTON_HEIGHT, $CONTROL_PRGBAR_HEIGHT);
 
-      .button {
-        position: absolute;
-        background: $CONTROL_BUTTON_COLOR;
-        height: $CONTROL_BUTTON_HEIGHT;
-        width: $CONTROL_BUTTON_WIDTH;
-        left: calc(50% - #{$CONTROL_BUTTON_WIDTH} / 2);
-        text-align: center;
+      .input {
+        display: block;
         margin: 0 auto;
-        cursor: pointer;
-        border-radius: 2rem;
+        width: $CONTROL_FORM_WIDTH;
+        height: calc(#{$CONTROL_FONT_SIZE} + .3rem);
+        border-width: 0 0 .2rem 0;
+        font-family: "Nova Mono", monospace;
+        font-size: $CONTROL_FONT_SIZE;
+        line-height: $CONTROL_FONT_SIZE;
+        text-align: center;
+        -moz-appearance: textfield;
 
-        .text {
-          cursor: pointer;
-          font: bold 1.25rem/1 "Nova Mono";
-          color: #71DFBE;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          left: 0;
-          right: 0;
+        &:focus {
+          outline: none;
         }
 
-        &.restarting {
-          cursor: pointer;
-          animation: int_btn .5s ease-in-out forwards;
-          opacity: 0;
-          @keyframes int_btn {
-            to {
-              opacity: 1;
-            }
+        &:focus, &.filled {
+          + .label {
+            color: $CONTROL_PLACEHOLDER_OUT_COLOR;
+            transform: translateY(calc(#{-$CONTROL_FONT_SIZE} - .3rem));
           }
         }
 
-        &.animating {
-          opacity: 1;
-          cursor: default;
-          animation: anim_btn $CONTROL_BUTTON_1ST_TRANS_TIME ease-in-out forwards;
-          @keyframes anim_btn {
-            to {
-              left: calc(50% - #{$CONTROL_PRGBAR_WIDTH} / 2);
-              height: $CONTROL_PRGBAR_HEIGHT;
-              width: $CONTROL_PRGBAR_WIDTH;
-            }
-          }
-        }
-
-        &.finished {
-          cursor: default;
-          animation: fin_btn .5s ease-in-out forwards;
-          left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA} / 2);
-          height: $CONTROL_BUTTON_FIN_DIA;
-          width: $CONTROL_BUTTON_FIN_DIA;
-          border-radius: $CONTROL_BUTTON_FIN_DIA / 2;
-          background-color: $CONTROL_BUTTON_FIN_COLOR;
-          opacity: 0;
-          @keyframes fin_btn {
-            to {
-              opacity: 1;
-            }
-          }
+        &::-webkit-inner-spin-button, &-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
         }
       }
 
-      .progress_bar {
-        opacity: 0;
+      .label {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        font-family: "Nova Mono", monospace;
         position: absolute;
-        height: $CONTROL_PRGBAR_HEIGHT;
-        width: 0;
-        left: 50%;
-        border-radius: $CONTROL_PRGBAR_RAD;
-        transform: translateX(-50%);
-        background: lighten($CONTROL_BUTTON_COLOR, 20%);
-
-        &.animating {
-          opacity: 1;
-          animation: progress 5.5s ease-in $CONTROL_BUTTON_1ST_TRANS_TIME forwards;
-          @keyframes progress {
-            100% {
-              width: $CONTROL_PRGBAR_WIDTH;
-            }
-          }
-        }
-      }
-
-      svg {
-        position: absolute;
-        z-index: 0;
-        width: $CONTROL_BUTTON_FIN_DIA / 2;
-        top: $CONTROL_BUTTON_FIN_DIA / 4 - .3rem;
-        left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA } / 4);
-
-        .check {
-          opacity: 0;
-          fill: none;
-          stroke: $CONTROL_BUTTON_CHECK_COLOR;
-          stroke-width: 3;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          animation: check_btn .2s ease-out .3s forwards;
-          @keyframes check_btn {
-            to {
-              opacity: 100;
-            }
-          }
-        }
+        text-align: center;
+        font-size: $CONTROL_FONT_SIZE;
+        line-height: $CONTROL_FONT_SIZE;
+        color: $CONTROL_PLACEHOLDER_IN_COLOR;
+        cursor: text;
+        transition: transform .2s cubic-bezier(0.20, 0.91, 1, 1);
       }
     }
   }
 
-  @media (max-width: $WIDTH_THRESHOLD) {
+  .btnWrapper {
+    position: relative;
+    width: 100%;
+    height: max($CONTROL_BUTTON_HEIGHT, $CONTROL_PRGBAR_HEIGHT);
+    @media (max-width: $WIDTH_THRESHOLD) {
+      margin-top: 1rem;
+    }
 
+    .button {
+      position: absolute;
+      background: $CONTROL_BUTTON_COLOR;
+      height: $CONTROL_BUTTON_HEIGHT;
+      width: $CONTROL_BUTTON_WIDTH;
+      left: calc(50% - #{$CONTROL_BUTTON_WIDTH} / 2);
+      text-align: center;
+      margin: 0 auto;
+      cursor: pointer;
+      border-radius: 2rem;
+
+      .text {
+        cursor: pointer;
+        font: bold 1.25rem/1 "Nova Mono";
+        color: $CONTROL_BUTTON_TEXT_COLOR;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        right: 0;
+      }
+
+      &.restarting {
+        cursor: pointer;
+        animation: int_btn $CONTROL_BUTTON_RESTART ease-in-out forwards;
+        opacity: 0;
+        @keyframes int_btn {
+          to {
+            opacity: 1;
+          }
+        }
+      }
+
+      &.animating {
+        opacity: 1;
+        cursor: default;
+        animation: anim_btn $CONTROL_BUTTON_BEFORE_SHOOTING ease-in-out forwards;
+        @keyframes anim_btn {
+          to {
+            left: calc(50% - #{$CONTROL_PRGBAR_WIDTH} / 2);
+            height: $CONTROL_PRGBAR_HEIGHT;
+            width: $CONTROL_PRGBAR_WIDTH;
+          }
+        }
+      }
+
+      &.finished {
+        cursor: default;
+        animation: fin_btn $CONTROL_BUTTON_RESTART ease-in-out forwards;
+        left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA} / 2);
+        height: $CONTROL_BUTTON_FIN_DIA;
+        width: $CONTROL_BUTTON_FIN_DIA;
+        border-radius: $CONTROL_BUTTON_FIN_DIA / 2;
+        background-color: $CONTROL_BUTTON_FIN_COLOR;
+        opacity: 0;
+        @keyframes fin_btn {
+          to {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .progress_bar {
+      opacity: 0;
+      position: absolute;
+      height: $CONTROL_PRGBAR_HEIGHT;
+      width: 0;
+      left: 50%;
+      border-radius: $CONTROL_PRGBAR_RAD;
+      transform: translateX(-50%);
+      background: lighten($CONTROL_BUTTON_COLOR, 20%);
+
+      &.animating {
+        opacity: 1;
+        animation: progress $CONTROL_BUTTON_SHOOTING ease-in $CONTROL_BUTTON_BEFORE_SHOOTING forwards;
+        @keyframes progress {
+          100% {
+            width: $CONTROL_PRGBAR_WIDTH;
+          }
+        }
+      }
+    }
+
+    svg {
+      position: absolute;
+      z-index: 0;
+      width: $CONTROL_BUTTON_FIN_DIA / 2;
+      top: $CONTROL_BUTTON_FIN_DIA / 4 - .3rem;
+      left: calc(50% - #{$CONTROL_BUTTON_FIN_DIA } / 4);
+
+      .check {
+        opacity: 0;
+        fill: none;
+        stroke: $CONTROL_BUTTON_CHECK_COLOR;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        animation: check_btn $CONTROL_BUTTON_RESTART / 2 ease-out $CONTROL_BUTTON_RESTART / 2 forwards;
+        @keyframes check_btn {
+          50% {
+            opacity: 100;
+          }
+          100% {
+            opacity: 100;
+          }
+        }
+      }
+    }
   }
 }

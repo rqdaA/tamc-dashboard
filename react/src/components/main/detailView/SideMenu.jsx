@@ -1,29 +1,28 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCamera, faCircleInfo, faSliders} from "@fortawesome/free-solid-svg-icons";
 
 const SideMenu = (props) => (
-    // TODO Make SideMenu Responsive
     <div className="menu">
         <ul>
-            <Link to="info">
-                <li>
+            <li>
+                <NavLink to="info" className={({isActive}) => "link " + (isActive ? "selectedMenu" : "")}>
                     <FontAwesomeIcon icon={faCircleInfo} className='icon'/>
                     <p>INFO</p>
-                </li>
-            </Link>
-            <li>
-                <Link to="config">
-                    <FontAwesomeIcon icon={faSliders} className='icon'/>
-                    <p>CONFIG</p>
-                </Link>
+                </NavLink>
             </li>
             <li>
-                <Link to="control">
+                <NavLink to="config" className={({isActive}) => "link " + (isActive ? "selectedMenu" : "")}>
+                    <FontAwesomeIcon icon={faSliders} className='icon'/>
+                    <p>CONFIG</p>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to="control" className={({isActive}) => "link " + (isActive ? "selectedMenu" : "")}>
                     <FontAwesomeIcon icon={faCamera} className='icon'/>
                     <p>CONTROL</p>
-                </Link>
+                </NavLink>
             </li>
         </ul>
     </div>

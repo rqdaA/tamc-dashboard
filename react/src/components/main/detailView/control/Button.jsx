@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 function Button() {
 
-    // state [intact, animating, finished, restarting]
+    // state=[intact, animating, finished, restarting]
     const [btnState, setBtnState] = useState('intact')
     const handleButton = (e) => {
         if (btnState === 'intact' || btnState === 'restarting') {
