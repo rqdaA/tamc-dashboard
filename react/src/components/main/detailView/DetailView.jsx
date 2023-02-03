@@ -6,12 +6,12 @@ import Config from "./config/Config";
 import Control from "./control/Control";
 import {Route, Routes, Navigate} from "react-router-dom";
 
-const DetailView = ({deviceIdentifier: deviceId}) => (
+const DetailView = ({deviceIdentifier}) => (
     <div className="detailView">
         <SideMenu/>
         <Routes>
-            <Route path={`info`} loader={() => {}} element={<Info deviceId={deviceId}/>}/>
-            <Route path={`config`} element={<Config className="menuConfig" device/>}/>
+            <Route path={`info`} element={<Info deviceId={deviceIdentifier}/>}/>
+            <Route path={`config`} element={<Config className="menuConfig" deviceId={deviceIdentifier}/>}/>
             <Route path={`control`} element={<Control className="menuControl"/>}/>
             <Route path={`/*`} element={<Navigate to={`info`}/>}/>
         </Routes>
