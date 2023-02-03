@@ -1,17 +1,24 @@
 import React, {useEffect, useState} from "react";
 import "./info.scss";
-import {deviceIdToDBName, deviceIdToName, widthThresholdPx} from "settings";
+import {deviceIdToName, widthThresholdPx} from "settings";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faCalendar, faDroplet, faGlobe, faMicrochip, faServer, faTemperatureThreeQuarters,
+    faCalendar,
+    faDroplet,
+    faGlobe,
+    faMicrochip,
+    faServer,
+    faTemperatureThreeQuarters,
 } from "@fortawesome/free-solid-svg-icons";
 import {Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import CircleGraph from "../../common/CircleGraph";
+import {getElement, fetchData, parseGraphData} from "../../common/api.ts";
 
-function Info({deviceId, fetchApi}) {
+function Info({deviceId}) {
+    // TODO Use load waiting screen (or blank page)
     const graphAspect = window.screen.width >= widthThresholdPx ? 4 : 2;
     const [generalInfo, setGeneralInfo] = useState({
-        isOnline: ".", lastUpdate: ".", temp: ".", moisture: ".", cpuTemp: ".", uptime: ".",
+        isOnline: ".", lastUpdate: ".", temperature: ".", moisture: ".", cpuTemp: ".", uptime: ".",
     });
     const [storageUsage, setStorageUsage] = useState({
         usb: "0%", sd: "0%",
@@ -35,78 +42,48 @@ function Info({deviceId, fetchApi}) {
                 return newState;
             });
         }
-
         const id = setInterval(tick, 1000);
         return () => clearInterval(id);
     });
 
     useEffect(() => {
-        const access_db = async () => {
-            // const url = window.location.host;
-            const url = 'toms-server.tail2925.ts.net'
-            const respInfo = await fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}`, {mode: "cors"})
-            const respLogs = await fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}/logs`, {mode: "cors"})
-            const respGraph = await fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}/usages`, {mode: "cors"})
-            const infoJson = await respInfo.json()
-            const logsJson = await respLogs.json()
-            const graphDataJson = await respGraph.json()
-            const str = sessionStorage
-            const validate = (raw) => (raw !== -128 ? `${raw}` : "データなし");
-            const validateUsage = (num) => (num !== -128 ? `${num}%` : '0%')
-            str.setItem(`${deviceId}_isOnline`, 'true')
-            str.setItem(`${deviceId}_lastUpdate`, infoJson['date'].replace('T', ' '))
-            str.setItem(`${deviceId}_temp`, validate(infoJson['temperature']))
-            str.setItem(`${deviceId}_moisture`, validate(infoJson['moisture']))
-            str.setItem(`${deviceId}_cpuTemp`, validate(infoJson['cpuTemperature']) + '℃')
-            str.setItem(`${deviceId}_uptime`, validate(infoJson['uptime']))
-            str.setItem(`${deviceId}_usbUsage`, validateUsage(infoJson['usbUsage']))
-            str.setItem(`${deviceId}_sdUsage`, validateUsage(infoJson['sdCardUsage']))
-            str.setItem(`${deviceId}_cpuUsages`, graphDataJson['cpuUsage'].join(','))
-            str.setItem(`${deviceId}_memUsages`, graphDataJson['memUsage'].join(','))
-            str.setItem(`${deviceId}_logNames`, Object.keys(logsJson).join(','))
-            for (let logName in logsJson) str.setItem(`${deviceId}_${logName}`, logsJson[logName])
+        const fetch = async () => {
+            fetchData(deviceId)
             setGeneralInfo({
-                isOnline: str.getItem(`${deviceId}_isOnline`),
-                lastUpdate: str.getItem(`${deviceId}_lastUpdate`),
-                temp: str.getItem(`${deviceId}_temp`),
-                moisture: str.getItem(`${deviceId}_moisture`),
-                cpuTemp: str.getItem(`${deviceId}_cpuTemp`),
-                uptime: str.getItem(`${deviceId}_uptime`),
+                isOnline: getElement(deviceId, "isOnline"),
+                lastUpdate: getElement(deviceId, "lastUpdate"),
+                temperature: getElement(deviceId, "temperature"),
+                moisture: getElement(deviceId, "moisture"),
+                cpuTemp: getElement(deviceId, "cpuTemp"),
+                uptime: getElement(deviceId, "uptime")
             });
             setStorageUsage({
-                usb: str.getItem(`${deviceId}_usbUsage`), sd: str.getItem(`${deviceId}_sdUsage`),
+                usb: getElement(deviceId, "usbUsage"),
+                sd: getElement(deviceId, "sdCardUsage")
             });
-            let res = {}
-            for (let kw in graphData) {
-                res[kw] = sessionStorage.getItem(`${deviceId}_${kw}`)?.split(',').map((x, n) => {
-                    let dic = {}
-                    dic['date'] = `${n}h`
-                    dic['val'] = parseInt(x)
-                    return dic
-                })
-            }
-            console.log(res)
-            setGraphData(res)
-        };
-        const str = sessionStorage
-        if (!str.getItem(deviceId) || (Date.now() - parseInt(str.getItem(deviceId))) > 3600 * 1000) {
-            access_db();
+            setGraphData({
+                'memUsages': parseGraphData(getElement(deviceId, "memUsages").split(',').map((x) => parseInt(x))),
+                'cpuUsages': parseGraphData(getElement(deviceId, "cpuUsages").split(',').map((x) => parseInt(x))),
+            })
         }
+        fetch()
     }, []);
-    const handleLogs = () => {
-        const str = sessionStorage
-        const names = str.getItem(`${deviceId}_logNames`)
-        if (!names) return <></>
+
+    const Logs = () => {
+        const logs = getElement(deviceId, 'logs')
+        if (!logs) return 0
+
+        const dataJson = JSON.parse(logs)
         let res = []
-        for (let name of names.split(',')) {
-            res.push(<div className="infoCard logs">
-                <h3 className="title">{name}</h3>
-                <div className="logText">
-                        <pre>
-                            <code>{str.getItem(`${deviceId}_${name}`)}</code>
-                        </pre>
+        for (let name in dataJson) {
+            res.push(
+                <div className="infoCard log">
+                    <h3 className="title">{name}</h3>
+                    <div className="logText">
+                        <pre> <code>{dataJson[name]}</code> </pre>
+                    </div>
                 </div>
-            </div>)
+            )
         }
         return res
     }
@@ -130,7 +107,7 @@ function Info({deviceId, fetchApi}) {
                             className="icon"
                             icon={faTemperatureThreeQuarters}
                         />
-                        <p>温度:{generalInfo.temp}</p>
+                        <p>温度:{generalInfo.temperature}</p>
                     </div>
                     <div className="moisture indiInfo">
                         <FontAwesomeIcon className="icon" icon={faDroplet}/>
@@ -147,13 +124,12 @@ function Info({deviceId, fetchApi}) {
                 </div>
                 <div className="pictureCard"></div>
             </div>
-
             <div className="infoCard useRate">
                 <h3 className="title">使用率</h3>
                 <div className="content">
                     <div className="circles">
-                        <CircleGraph text={storageUsage.usb}/>
                         <CircleGraph text={storageUsage.sd}/>
+                        <CircleGraph text={storageUsage.usb}/>
                     </div>
                     <div className="circleDesc">
                         <p className="description">/</p>
@@ -161,8 +137,7 @@ function Info({deviceId, fetchApi}) {
                     </div>
                 </div>
             </div>
-
-            {handleLogs()}
+            {<Logs/>}
             <div className="infoCard graph">
                 <h3 className="title">CPU使用率</h3>
                 <ResponsiveContainer className="chart" aspect={graphAspect}>

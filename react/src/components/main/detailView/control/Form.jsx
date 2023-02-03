@@ -1,15 +1,15 @@
 import React from 'react';
 
-function Form({labelName, id, val, inputHandler}) {
-    const handleInput = (event) => {
-        const val = event.target.value
-        inputHandler(event.target.id, val.length ? parseInt(event.target.value) : NaN)
+function Form({labelName, id, val, inputHandler, onFinish}) {
+    const onChange = (event) => {
+        if (/^\d*\.?\d?/.test(event.target.value))
+            inputHandler(event.target.id, event.target.value)
     }
-    const isEmpty = (input) => isNaN(input);
+
     return (
         <div className="formField">
-            <input id={id} className={"input " + (!isEmpty(val) ? "filled" : "")} type="number"
-                   value={val.toString()} onChange={handleInput}/>
+            <input id={id} className={"input " + (val ? "filled" : "")} type="text"
+                   value={val} onChange={onChange} onBlur={() => onFinish(id, val)}/>
             <label className="label" htmlFor={id}>{labelName}</label>
         </div>
     );

@@ -12,7 +12,7 @@ const DetailView = ({deviceIdentifier}) => (
         <Routes>
             <Route path={`info`} element={<Info deviceId={deviceIdentifier}/>}/>
             <Route path={`config`} element={<Config className="menuConfig" deviceId={deviceIdentifier}/>}/>
-            <Route path={`control`} element={<Control className="menuControl"/>}/>
+            <Route path={`control`} element={<Control className="menuControl" deviceId={deviceIdentifier}/>}/>
             <Route path={`/*`} element={<Navigate to={`info`}/>}/>
         </Routes>
     </div>

@@ -4,15 +4,13 @@ import {Link} from "react-router-dom";
 import {deviceIdToName} from "settings";
 
 
-const Card = ({deviceId, isOnline, lastRecvTime, cpuTemp, moisture, overAllUsage, usbUsage, detailURL}) => (
+const Card = ({deviceId, isOnline, lastRecvTime, cpuTemp, overAllUsage, usbUsage, detailURL}) => (
     <div className="card">
-        <Link to={detailURL}>
-            <img src="/image.jpg" alt="IMG"/>
+        <Link to={detailURL}> <img src="/image.jpg" alt="IMG"/>
             <h5 className={`deviceName ${isOnline ? "online" : "offline"}`}>{deviceIdToName[deviceId]}</h5>
             <div className="cardInfo">
                 <p className="lastRecvTime">{lastRecvTime}</p>
                 <p className="cpuTemp">{cpuTemp}</p>
-                <p className="moisture">{moisture}</p>
             </div>
             <div className="circles">
                 <CircleGraph text={overAllUsage}/>
