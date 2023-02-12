@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import './control.scss'
 import Form from './Form'
 import Button from "./Button";
-import {fetchCameraSettings} from "../../common/api.ts";
+import {captureImage, fetchCameraSettings, fetchLatestImage} from "../../common/api.ts";
 import {fNumberList, isoList, ssList} from "../../../../settings";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert"
 
 function Control({deviceId}) {
     const [loaded, setLoaded] = useState(false)
@@ -12,16 +14,19 @@ function Control({deviceId}) {
         'iso': 0,
         'f_number': 0
     })
+    const [imageURL, setImageURL] = useState('')
+    const [errorText, setErrorText] = useState('')
 
     useEffect(
         () => {
             const retrieve = async () => {
                 const settings = await fetchCameraSettings(deviceId)
+                setImageURL(await fetchLatestImage(deviceId))
                 setCameraSettings(
                     {
                         'ss': settings['ss'],
                         'iso': settings['iso'],
-                        'f_number': settings['f']
+                        'f_number': settings['f_number']
                     })
             }
             retrieve().then(() => setLoaded(true))
@@ -49,26 +54,41 @@ function Control({deviceId}) {
         setCameraSettings({...cameraSettings, [key]: val})
     }
 
-    const capture = () => {
-
+    const capture = async () => {
+        try {
+            const url = await captureImage(deviceId, cameraSettings)
+            setImageURL(url)
+        } catch (e) {
+            console.log(e)
+            setErrorText('Error!!!') // TODO Error Handling
+            setTimeout(() => setErrorText(''), 3000)
+        }
     }
 
+    // TODO Input in ms -> x/y (s)
     return loaded ? (
         <div className="control">
-            <img src="/image.jpg" alt=""/>
+            <img src={imageURL} alt=""/>
             <div className="config">
                 <div className="forms">
                     <Form labelName="SS(ms)" id="ss" val={cameraSettings['ss']} inputHandler={handler}
-                          onFinish={onFinish}/>
+                          onFinish={onFinish} autofocus/>
                     <Form labelName="ISO" id="iso" val={cameraSettings['iso']} inputHandler={handler}
                           onFinish={onFinish}/>
                     <Form labelName="F Number" id="f_number" val={cameraSettings['f_number']} inputHandler={handler}
                           onFinish={onFinish}/>
                 </div>
                 <Button handler={capture}/>
+                <Snackbar open={!!errorText} autoHideDuration={2000}>
+                    <Alert severity="error" sx={{width: '100%'}}>{errorText}</Alert>
+                </Snackbar>
             </div>
         </div>
-    ) : undefined
+    ) : <div className="control">
+        <h1 style={{color: 'white'}}>
+            LOADING...
+        </h1>
+    </div>
 }
 
 export default Control;

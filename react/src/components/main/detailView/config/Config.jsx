@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './config.scss'
-import {FormControlLabel, Slider, Switch} from "@material-ui/core";
+import {FormControlLabel, Slider, Switch} from "@mui/material";
 
 
 function Config() {
@@ -8,7 +8,7 @@ function Config() {
     const [temp, setTemp] = useState(40);
     const [obs, setObs] = useState([]);
     const coloredSwitch = <Switch color="primary"/>
-        useEffect(() => {
+    useEffect(() => {
         setTimeout(() => {
             setObs(['obs_once', 'obs_once_night', 'obs_once_sunset'])
         }, 2000)

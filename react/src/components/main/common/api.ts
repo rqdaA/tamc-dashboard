@@ -14,6 +14,12 @@ type StorageElements =
     | "memUsages"
     | "logs"
 
+interface CaptureSettings {
+    iso: number,
+    f_number: number,
+    ss: number
+}
+
 interface GraphData {
     'date': string,
     'val': number
@@ -52,13 +58,36 @@ export const fetchData = async (deviceId: string | number): Promise<void> => {
     setElement(deviceId, "logs", JSON.stringify(logsJson))
 }
 
-export const fetchCameraSettings = async (deviceId: string | number): Promise<JSON> => {
+export const fetchCameraSettings = async (deviceId: string | number): Promise<CaptureSettings> => {
     const url: string = 'toms-server.tail2925.ts.net'
     const settings = fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}/camera_settings`)
-    return (await settings).json()
+    let captureSettings = await (await settings).json()
+    captureSettings['ss'] = parseFloat(captureSettings['ss'].match(/[\d\.]+/)?.[0]) * 1000
+    captureSettings['f_number'] = captureSettings['f_number'].replace('f/', '')
+    return captureSettings
+}
+export const fetchLatestImage = async (deviceId: string | number): Promise<string> => {
+    const url: string = 'toms-server.tail2925.ts.net'
+    const img = await fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}/latest_image`, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'force-cache',
+    })
+    return URL.createObjectURL(await img.blob())
 }
 
-export const capture = (deviceId: string | number) => {
+export const captureImage = async (deviceId: string | number, settings: CaptureSettings): Promise<string> => {
     const url: string = 'toms-server.tail2925.ts.net'
-    const img = fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}/capture`)
+    const img = await fetch(`http://${url}:8080/${deviceIdToDBName[deviceId]}/capture`, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'force-cache',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify({
+            'iso': settings['iso'].toString(),
+            'f_number': `f/${settings['f_number']}`,
+            'ss': `${settings['ss'] / 1000}s` // Web Input is in MilliSec, GPhoto's input is in Sec
+        })
+    })
+    return URL.createObjectURL(await img.blob())
 }

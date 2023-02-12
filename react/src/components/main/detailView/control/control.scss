@@ -1,8 +1,6 @@
 @import 'global';
 
 .control {
-  // TODO Focusable Button
-
   width: calc(100vw - #{$MENU_WIDTH});
   height: calc(100vh - #{$TOPBAR_HEIGHT});
   display: flex;
