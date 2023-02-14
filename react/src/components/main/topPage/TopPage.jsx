@@ -3,24 +3,25 @@ import Card from "./Card";
 import './topPage.scss'
 import {fetchData, getElement} from "../common/api.ts";
 import {deviceIds} from "../../../settings";
+import Loading from "../common/Loading";
 
 const TopPage = () => {
     // TODO Display Rest when some of Endpoints errored
     const [loaded, setLoaded] = useState(false)
     useEffect(() => {
         const fetch = async () => {
-            for (let id of deviceIds) {
-                const d =  fetchData(id)
-                await d
+            for (let id of deviceIds){
+                await fetchData(id)
             }
-            setLoaded(true)
         }
-        fetch()
+        fetch().then(
+            () => setLoaded(true)
+        )
     }, [])
 
     return loaded ? (
         <div className="cards" data-aos="fade-down">
-            {deviceIds.map((id,i) => (
+            {deviceIds.map((id, i) => (
                 <Card deviceId={id}
                       isOnline={getElement(id, "isOnline")}
                       cpuTemp={getElement(id, "cpuTemp")}
@@ -32,7 +33,7 @@ const TopPage = () => {
                 />
             ))}
         </div>
-    ) : 0
+    ) : <Loading/>
 }
 
 export default TopPage;

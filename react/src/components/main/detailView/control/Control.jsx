@@ -6,6 +6,7 @@ import {captureImage, fetchCameraSettings, fetchLatestImage} from "../../common/
 import {fNumberList, isoList, ssList} from "../../../../settings";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert"
+import Loading from "../../common/Loading";
 
 function Control({deviceId}) {
     const [loaded, setLoaded] = useState(false)
@@ -85,9 +86,7 @@ function Control({deviceId}) {
             </div>
         </div>
     ) : <div className="control">
-        <h1 style={{color: 'white'}}>
-            LOADING...
-        </h1>
+        <Loading/>
     </div>
 }
 

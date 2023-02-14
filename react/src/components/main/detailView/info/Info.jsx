@@ -13,10 +13,12 @@ import {
 import {Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import CircleGraph from "../../common/CircleGraph";
 import {getElement, fetchData, parseGraphData} from "../../common/api.ts";
+import Loading from "../../common/Loading";
 
 function Info({deviceId}) {
     // TODO Use load waiting screen (or blank page)
-    const graphAspect = window.screen.width >= widthThresholdPx ? 4 : 2;
+    const deviceType = window.screen.width >= widthThresholdPx ? "PC" : "MOBILE"
+    const graphAspect = deviceType === "PC" ? 4 : 2
     const [generalInfo, setGeneralInfo] = useState({
         isOnline: ".", lastUpdate: ".", temperature: ".", moisture: ".", cpuTemp: ".", uptime: ".",
     });
@@ -24,31 +26,13 @@ function Info({deviceId}) {
         usb: "0%", sd: "0%",
     });
     const [graphData, setGraphData] = useState({
-        'memUsages': [],
-        'cpuUsages': []
+        'memUsages': [], 'cpuUsages': []
     })
-
-    useEffect(() => {
-        const tick = () => {
-            setGeneralInfo((state) => {
-                let newState = {...state};
-                for (let key in newState) {
-                    let val = newState[key];
-                    if (!val.replaceAll(".", "").length) {
-                        if (val.length === 3) val = ""; else val += ".";
-                    }
-                    newState[key] = val;
-                }
-                return newState;
-            });
-        }
-        const id = setInterval(tick, 1000);
-        return () => clearInterval(id);
-    });
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         const fetch = async () => {
-            fetchData(deviceId)
+            await fetchData(deviceId)
             setGeneralInfo({
                 isOnline: getElement(deviceId, "isOnline"),
                 lastUpdate: getElement(deviceId, "lastUpdate"),
@@ -61,12 +45,18 @@ function Info({deviceId}) {
                 usb: getElement(deviceId, "usbUsage"),
                 sd: getElement(deviceId, "sdCardUsage")
             });
-            setGraphData({
-                'memUsages': parseGraphData(getElement(deviceId, "memUsages").split(',').map((x) => parseInt(x))),
-                'cpuUsages': parseGraphData(getElement(deviceId, "cpuUsages").split(',').map((x) => parseInt(x))),
-            })
+            setGraphData(deviceType === "PC" ? {
+                    'memUsages': parseGraphData(getElement(deviceId, "memUsages").split(',').map((x) => parseInt(x))),
+                    'cpuUsages': parseGraphData(getElement(deviceId, "cpuUsages").split(',').map((x) => parseInt(x))),
+                } : {
+                    'memUsages': parseGraphData(getElement(deviceId, "memUsages").split(',').map((x) => parseInt(x))).slice(0, 12),
+                    'cpuUsages': parseGraphData(getElement(deviceId, "cpuUsages").split(',').map((x) => parseInt(x))).slice(0, 12)
+                }
+            )
         }
-        fetch()
+        fetch().then(
+            () => setLoaded(true)
+        )
     }, []);
 
     const Logs = () => {
@@ -88,7 +78,7 @@ function Info({deviceId}) {
         return res
     }
 
-    return (<div className="info">
+    return loaded ? (<div className="info">
         <h1 className="deviceName">{deviceIdToName[deviceId]}</h1>
         <div className="infoCards">
             <div className="infoCard detailedInfo">
@@ -159,7 +149,11 @@ function Info({deviceId}) {
                 </ResponsiveContainer>
             </div>
         </div>
-    </div>);
+    </div>) : (
+        <div className="info">
+            <Loading/>
+        </div>
+    )
 }
 
 export default Info;

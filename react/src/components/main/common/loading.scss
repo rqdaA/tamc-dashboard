@@ -1,0 +1,31 @@
+@import "/global";
+
+.loading {
+  width: 100%;
+  height: calc(100vh - #{$TOPBAR_HEIGHT});
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-items: center;
+
+  @media (max-width: $WIDTH_THRESHOLD) {
+    height: calc(100vh - #{$TOPBAR_HEIGHT} - #{$MOBILE_MENU_HEIGHT});
+  }
+
+  .loadingSpinner {
+    margin: auto 0;
+    width: 15vw;
+    height: 15vw;
+    border: .5rem solid darken(#fff, 75);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 2s ease-in-out infinite;
+  }
+
+}
+
+@keyframes spin {
+  to {
+    transform: rotateZ(360deg)
+  }
+}
