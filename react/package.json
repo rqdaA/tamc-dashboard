@@ -27,10 +27,26 @@
     "eject": "./node_modules/.bin/react-scripts eject"
   },
   "eslintConfig": {
+    "plugins": [
+      "react"
+    ],
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "rules": {
+      "no-unused-vars": 1,
+      "react/prop-types": 1,
+      "no-useless-escape": 0,
+      "max-len": [1, 160, 4]
+    }
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "semi": false,
+    "printWidth": 160
   },
   "browserslist": {
     "production": [
